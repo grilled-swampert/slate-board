@@ -15,7 +15,7 @@ const limiter = rateLimit({
 const app = express();
 app.use(cors());
 app.use(cors({
-  origin: ['http://localhost:5173'],
+  origin: ['http://localhost:5173', 'https://slate-board-sigma.vercel.app'],
 }));
 app.use(morgan('dev'));
 app.use(express.json());

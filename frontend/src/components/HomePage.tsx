@@ -29,7 +29,7 @@ const HomePage: React.FC<HomePageProps> = ({ onJoinRoom, currentUser }) => {
 
   const handleCreateRoom = () => {
     if (!userName.trim()) return;
-    
+
     const newRoom: Room = {
       id: Math.random().toString(36).substr(2, 9),
       code: generateRoomCode(),
@@ -37,14 +37,14 @@ const HomePage: React.FC<HomePageProps> = ({ onJoinRoom, currentUser }) => {
       createdAt: new Date(),
       users: []
     };
-    
+
     setCreatedRoom(newRoom);
     setIsCreating(true);
   };
 
   const handleJoinCreatedRoom = () => {
     if (!createdRoom) return;
-    
+
     const user: User = {
       id: currentUser?.id || generateUserId(),
       name: userName,
@@ -52,9 +52,9 @@ const HomePage: React.FC<HomePageProps> = ({ onJoinRoom, currentUser }) => {
       isOnline: true,
       joinedAt: new Date().toISOString()
     };
-    
+
     const updatedRoom = { ...createdRoom, users: [user] };
-    
+
     onJoinRoom(updatedRoom, user);
   };
 
@@ -82,7 +82,7 @@ const HomePage: React.FC<HomePageProps> = ({ onJoinRoom, currentUser }) => {
 
   const copyRoomCode = async () => {
     if (!createdRoom) return;
-    
+
     try {
       await navigator.clipboard.writeText(createdRoom.code);
       setCopied(true);
@@ -93,23 +93,31 @@ const HomePage: React.FC<HomePageProps> = ({ onJoinRoom, currentUser }) => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
+    <div className="min-h-screen bg-amber-50 flex items-center justify-center p-4">
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
-          <div className="flex justify-center mb-6">
+          {/* <div className="flex justify-center mb-6">
             <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center">
               <Users className="w-8 h-8 text-white" />
             </div>
-          </div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">slateboard</h1>
-          <p className="text-gray-600">collaborative whiteboard</p>
+          </div> */}
+          <h1 className="text-3xl font-bold text-gray-900 mb-2" style={{ fontFamily: 'Poppins' }}>
+            slateboard
+          </h1>
+          <p className="text-gray-600 italic" style={{ fontFamily: 'Maven Pro' }}>
+            collaborative whiteboard
+          </p>
         </div>
 
         {!isCreating ? (
           <div className="space-y-6">
             <div className="space-y-4">
               <div>
-                <label htmlFor="userName" className="block text-sm font-medium text-gray-700 mb-2">
+                <label
+                  htmlFor="userName"
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                  style={{ fontFamily: 'Trirong' }}
+                >
                   Your Name
                 </label>
                 <input
@@ -117,8 +125,9 @@ const HomePage: React.FC<HomePageProps> = ({ onJoinRoom, currentUser }) => {
                   id="userName"
                   value={userName}
                   onChange={(e) => setUserName(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                  className="w-full px-4 py-3 border bg-white border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
                   placeholder="Enter your name"
+                  style={{ fontFamily: 'Trirong' }}
                 />
               </div>
             </div>
@@ -127,7 +136,8 @@ const HomePage: React.FC<HomePageProps> = ({ onJoinRoom, currentUser }) => {
               <button
                 onClick={handleCreateRoom}
                 disabled={!userName.trim()}
-                className="w-full flex items-center justify-center px-4 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg font-medium hover:from-blue-600 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-[1.02]"
+                className="w-full flex items-center justify-center px-4 py-3 bg-gradient-to-r from-emerald-300 to-lime-400 text-gray-800 rounded-lg font-medium hover:from-emerald-300 hover:to-line-400 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-[1.02]"
+                style={{ fontFamily: 'Poppins' }}
               >
                 <Plus className="w-5 h-5 mr-2" />
                 Create New Room
@@ -147,13 +157,15 @@ const HomePage: React.FC<HomePageProps> = ({ onJoinRoom, currentUser }) => {
                   type="text"
                   value={roomCode}
                   onChange={(e) => setRoomCode(e.target.value.toUpperCase())}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                  className="w-full px-4 py-3 border bg-white border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
                   placeholder="Enter room code"
+                  style={{ fontFamily: 'Trirong' }}
                 />
                 <button
                   onClick={handleJoinExistingRoom}
                   disabled={!roomCode.trim() || !userName.trim()}
                   className="w-full flex items-center justify-center px-4 py-3 bg-white border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  style={{ fontFamily: 'Poppins' }}
                 >
                   <ArrowRight className="w-5 h-5 mr-2" />
                   Join Room
@@ -164,18 +176,24 @@ const HomePage: React.FC<HomePageProps> = ({ onJoinRoom, currentUser }) => {
         ) : (
           <div className="space-y-6">
             <div className="text-center">
-              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-green-100 border border-black-200 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Check className="w-8 h-8 text-green-600" />
               </div>
-              <h2 className="text-xl font-semibold text-gray-900 mb-2">Room Created!</h2>
-              <p className="text-gray-600">Share this code with others to collaborate</p>
+              <h2 className="text-xl font-semibold text-gray-900 mb-2" style={{ fontFamily: 'Poppins' }}>
+                Room Created!
+              </h2>
+              <p className="text-gray-600" style={{ fontFamily: 'Maven Pro' }}>
+                Share this code with others to collaborate
+              </p>
             </div>
 
             <div className="bg-white rounded-lg border border-gray-200 p-6">
               <div className="text-center">
-                <p className="text-sm text-gray-600 mb-2">Room Code</p>
+                <p className="text-sm text-gray-600 mb-2" style={{ fontFamily: 'Trirong' }}>
+                  Room Code
+                </p>
                 <div className="flex items-center justify-center space-x-2">
-                  <span className="text-3xl font-bold text-gray-900 tracking-wider">
+                  <span className="text-3xl font-bold text-gray-900 tracking-wider" style={{ fontFamily: 'Poppins' }}>
                     {createdRoom?.code}
                   </span>
                   <button
@@ -195,7 +213,8 @@ const HomePage: React.FC<HomePageProps> = ({ onJoinRoom, currentUser }) => {
             <div className="space-y-3">
               <button
                 onClick={handleJoinCreatedRoom}
-                className="w-full flex items-center justify-center px-4 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg font-medium hover:from-blue-600 hover:to-purple-700 transition-all duration-200 transform hover:scale-[1.02]"
+                className="w-full flex items-center justify-center px-4 py-3 bg-gradient-to-r from-emerald-300 to-lime-400 text-black rounded-lg font-medium hover:from-emerald-300 hover:to-line-300 transition-all duration-200 transform hover:scale-[1.02]"
+                style={{ fontFamily: 'Poppins' }}
               >
                 <ArrowRight className="w-5 h-5 mr-2" />
                 Enter Room
@@ -203,6 +222,7 @@ const HomePage: React.FC<HomePageProps> = ({ onJoinRoom, currentUser }) => {
               <button
                 onClick={() => setIsCreating(false)}
                 className="w-full px-4 py-3 text-gray-600 hover:text-gray-800 transition-colors"
+                style={{ fontFamily: 'Maven Pro' }}
               >
                 Back
               </button>

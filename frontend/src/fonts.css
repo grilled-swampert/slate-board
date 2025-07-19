@@ -1,0 +1,35 @@
+/* === Maven Pro === */
+@font-face {
+  font-family: 'Maven Pro';
+  src: url('/src/assets/fonts/Maven_Pro/static/MavenPro-Regular.ttf') format('truetype');
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'Maven Pro';
+  src: url('/src/assets/fonts/Maven_Pro/static/MavenPro-Bold.ttf') format('truetype');
+  font-weight: 700;
+}
+
+/* === Poppins === */
+@font-face {
+  font-family: 'Poppins';
+  src: url('/src/assets/fonts/Poppins/Poppins-Regular.ttf') format('truetype');
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'Poppins';
+  src: url('/src/assets/fonts/Poppins/Poppins-Bold.ttf') format('truetype');
+  font-weight: 700;
+}
+
+/* === Trirong === */
+@font-face {
+  font-family: 'Trirong';
+  src: url('/src/assets/fonts/Trirong/Trirong-Regular.ttf') format('truetype');
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'Trirong';
+  src: url('/src/assets/fonts/Trirong/Trirong-Bold.ttf') format('truetype');
+  font-weight: 700;
+}
