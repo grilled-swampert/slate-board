@@ -1,6 +1,6 @@
-import React from 'react';
-import { X, Crown } from 'lucide-react';
-import { User } from '../types';
+import React from "react";
+import { X, Crown } from "lucide-react";
+import type { User } from "../types";
 
 interface UserListProps {
   users: User[];
@@ -43,7 +43,10 @@ const UserList: React.FC<UserListProps> = ({ users, isVisible, onClose }) => {
               <div className="flex items-center space-x-2">
                 <span className="font-medium text-gray-900">{user.name}</span>
                 {index === 0 && (
-                  <Crown className="w-4 h-4 text-yellow-500" title="Room Owner" />
+                  <Crown
+                    className="w-4 h-4 text-yellow-500"
+                    title="Room Owner"
+                  />
                 )}
               </div>
               <div className="flex items-center space-x-2">
