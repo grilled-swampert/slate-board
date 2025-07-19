@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Users, Plus, ArrowRight, Copy, Check } from 'lucide-react';
+import { Plus, ArrowRight, Copy, Check } from 'lucide-react';
 import type { Room, User } from '../types';
 
 interface HomePageProps {
