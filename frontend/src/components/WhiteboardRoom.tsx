@@ -13,6 +13,8 @@ interface WhiteboardRoomProps {
   onLeaveRoom: () => void;
 }
 
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
+
 const WhiteboardRoom: React.FC<WhiteboardRoomProps> = ({
   room,
   user,
@@ -34,7 +36,7 @@ const WhiteboardRoom: React.FC<WhiteboardRoomProps> = ({
   const socketRef = useRef<Socket | null>(null);
 
   useEffect(() => {
-    const socket = io("http://localhost:5000");
+    const socket = io(BACKEND_URL);
     socketRef.current = socket;
 
     socket.on('connect', () => {
