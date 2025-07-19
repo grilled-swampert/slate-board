@@ -6,14 +6,13 @@ import RoomHeader from "./RoomHeader";
 import { Socket } from "socket.io-client";
 import io from "socket.io-client";
 import type { DrawingStroke, DrawingTool, Room, User, UserCursor } from "../types";
+import { BACKEND_URL } from "../config";
 
 interface WhiteboardRoomProps {
   room: Room;
   user: User;
   onLeaveRoom: () => void;
 }
-
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
 
 const WhiteboardRoom: React.FC<WhiteboardRoomProps> = ({
   room,
