@@ -10,7 +10,13 @@ function App() {
   useEffect(() => {
     const userId = Math.random().toString(36).substr(2, 9);
     const userName = `User ${userId.substr(0, 4)}`;
-    setCurrentUser({ id: userId, name: userName, color: '#3B82F6' });
+    setCurrentUser({ 
+      id: userId, 
+      name: userName, 
+      color: '#3B82F6', 
+      isOnline: true, 
+      joinedAt: new Date().toISOString() 
+    });
   }, []);
 
   const handleJoinRoom = (room: Room, user: User) => {

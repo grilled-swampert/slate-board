@@ -2,6 +2,8 @@ export interface User {
   id: string;
   name: string;
   color: string;
+  isOnline: boolean;
+  joinedAt: string;
 }
 
 export interface Room {
