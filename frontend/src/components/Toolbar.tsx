@@ -6,12 +6,11 @@ import {
   Square, 
   Circle, 
   Type, 
-  Palette, 
   Trash2, 
   Undo,
   Download
 } from 'lucide-react';
-import { DrawingTool } from '../types';
+import type { DrawingTool } from '../types';
 
 interface ToolbarProps {
   currentTool: DrawingTool;
@@ -45,7 +44,6 @@ const Toolbar: React.FC<ToolbarProps> = ({
 
   return (
     <div className="w-16 lg:w-72 bg-white border-r border-gray-200 p-4 flex flex-col space-y-4">
-      {/* Tools */}
       <div className="space-y-2">
         <h3 className="hidden lg:block text-sm font-medium text-gray-700">Tools</h3>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
@@ -67,7 +65,6 @@ const Toolbar: React.FC<ToolbarProps> = ({
         </div>
       </div>
 
-      {/* Colors */}
       <div className="space-y-2">
         <h3 className="hidden lg:block text-sm font-medium text-gray-700">Colors</h3>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-2">
@@ -87,7 +84,6 @@ const Toolbar: React.FC<ToolbarProps> = ({
         </div>
       </div>
 
-      {/* Sizes */}
       <div className="space-y-2">
         <h3 className="hidden lg:block text-sm font-medium text-gray-700">Size</h3>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-2">
@@ -113,7 +109,6 @@ const Toolbar: React.FC<ToolbarProps> = ({
         </div>
       </div>
 
-      {/* Actions */}
       <div className="space-y-2 pt-4 border-t border-gray-200">
         <h3 className="hidden lg:block text-sm font-medium text-gray-700">Actions</h3>
         <div className="space-y-2">
@@ -131,13 +126,16 @@ const Toolbar: React.FC<ToolbarProps> = ({
             <Trash2 className="w-5 h-5" />
             <span className="hidden lg:inline text-sm">Clear</span>
           </button>
+
+          // ! NEED TO BE ADDED
           <button
-            onClick={() => {/* Export functionality */}}
+            onClick={() => {}}
             className="w-full p-3 bg-green-100 text-green-700 rounded-lg hover:bg-green-200 transition-colors flex items-center justify-center lg:justify-start space-x-2"
           >
             <Download className="w-5 h-5" />
             <span className="hidden lg:inline text-sm">Export</span>
           </button>
+          
         </div>
       </div>
     </div>

@@ -1,7 +1,9 @@
 export interface User {
-    id: string,
-    name: string;
-    color: string;
+  id: string;
+  name: string;
+  color: string;
+  isOnline: boolean;
+  joinedAt: Date;
 }
 
 export interface Room {
@@ -12,9 +14,8 @@ export interface Room {
   users: User[];
 }
 
-
 export interface DrawingTool {
-  type: 'pen' | 'eraser' | 'line' | 'rectangle' | 'circle' | 'text';
+  type: "pen" | "eraser" | "line" | "rectangle" | "circle" | "text";
   color: string;
   size: number;
 }
