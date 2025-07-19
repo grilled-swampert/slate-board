@@ -12,7 +12,7 @@ a real-time collaborative whiteboard application that allows multiple users to d
 - **undo/redo functionality** - easy mistake correction
 - **canvas clearing** - clear the entire canvas when needed
 
-## ���� project structure
+## 📁 project structure
 
 ```
 slateboard/
@@ -31,7 +31,7 @@ slateboard/
     └── package.json
 ```
 
-## ����️ installation & setup
+## installation & setup
 
 ### prerequisites
 - node.js (v16 or higher)
@@ -57,7 +57,7 @@ npm install
 npm run dev
 ```
 
-## ���� environment variables
+## environment variables
 
 ### frontend (.env)
 ```env
@@ -69,7 +69,7 @@ vite_backend_url=http://localhost:5000
 port=5000
 ```
 
-## ���� key components
+## key components
 
 ### frontend components
 
@@ -90,7 +90,7 @@ port=5000
 | `roommanager.js` | room state management and user tracking |
 
 
-## ���� drawing tools
+## drawing tools
 
 - **pen** - freehand drawing with customizable colors and sizes
 - **eraser** - remove parts of drawings
@@ -100,7 +100,7 @@ port=5000
 - **text** *(in development)* - add text annotations
 
 
-## ���� usage
+## usage
 
 1. **create a room**: click "create room" to start a new collaborative session
 2. **join a room**: enter a room code to join an existing session
@@ -108,7 +108,7 @@ port=5000
 4. **collaborate**: draw in real-time with other users
 5. **manage canvas**: use undo, redo, or clear functions as needed
 
-## ���� contributing
+## contributing
 
 1. fork the repository
 2. create your feature branch (`git checkout -b feature/amazingfeature`)
