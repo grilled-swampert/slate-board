@@ -45,7 +45,6 @@ const UserList: React.FC<UserListProps> = ({ users, isVisible, onClose }) => {
                 {index === 0 && (
                   <Crown
                     className="w-4 h-4 text-yellow-500"
-                    title="Room Owner"
                   />
                 )}
               </div>

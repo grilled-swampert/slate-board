@@ -12,7 +12,6 @@ interface RoomHeaderProps {
 
 const RoomHeader: React.FC<RoomHeaderProps> = ({ 
   room, 
-  user, 
   users, 
   onLeaveRoom, 
   onToggleUserList 
