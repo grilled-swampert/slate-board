@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Users, Copy, Check, LogOut, Settings } from 'lucide-react';
-import { Room, User } from '../types';
+import { Users, Copy, Check, LogOut } from 'lucide-react';
+import type { Room, User } from '../types';
 
 interface RoomHeaderProps {
   room: Room;
