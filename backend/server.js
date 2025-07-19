@@ -3,10 +3,23 @@ import http from 'http';
 import { Server } from 'socket.io';
 import cors from 'cors';
 import socketHandler from './sockets/index.js';
+import morgan from 'morgan';
+import rateLimit from 'express-rate-limit';
+import dotenv from 'dotenv';
+
+const limiter = rateLimit({
+  windowMs: 10 * 60 * 1000, 
+  max: 100,
+});
 
 const app = express();
 app.use(cors());
+app.use(morgan('dev'));
 app.use(express.json());
+app.use(limiter);
+
+dotenv.config();
+const PORT = process.env.PORT || 5000;
 
 const server = http.createServer(app);
 const io = new Server(server, {
@@ -18,6 +31,6 @@ const io = new Server(server, {
 
 socketHandler(io); 
 
-server.listen(5000, () => {
-  console.log('Server is running on port 5000');
+server.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
