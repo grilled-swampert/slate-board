@@ -12,7 +12,10 @@ const UserList: React.FC<UserListProps> = ({ users, isVisible, onClose }) => {
   if (!isVisible) return null;
 
   return (
-    <div className="absolute top-0 right-0 h-full w-80 bg-white border-l border-gray-200 shadow-lg z-20">
+    <div
+      className="absolute top-0 right-0 h-full w-80 bg-white border-l border-gray-200 shadow-lg z-20"
+      style={{ fontFamily: "Maven Pro" }}
+    >
       <div className="p-4 border-b border-gray-200">
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-semibold text-gray-900">
@@ -27,7 +30,7 @@ const UserList: React.FC<UserListProps> = ({ users, isVisible, onClose }) => {
         </div>
       </div>
 
-      <div className="p-4 space-y-3">
+      <div className="p-4 space-y-3 overflow-y-auto h-[calc(100%-160px)]">
         {users.map((user, index) => (
           <div
             key={user.id}
@@ -42,11 +45,7 @@ const UserList: React.FC<UserListProps> = ({ users, isVisible, onClose }) => {
             <div className="flex-1">
               <div className="flex items-center space-x-2">
                 <span className="font-medium text-gray-900">{user.name}</span>
-                {index === 0 && (
-                  <Crown
-                    className="w-4 h-4 text-yellow-500"
-                  />
-                )}
+                {index === 0 && <Crown className="w-4 h-4 text-yellow-500" />}
               </div>
               <div className="flex items-center space-x-2">
                 <div

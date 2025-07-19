@@ -221,7 +221,7 @@ const HomePage: React.FC<HomePageProps> = ({ onJoinRoom, currentUser }) => {
               </button>
               <button
                 onClick={() => setIsCreating(false)}
-                className="w-full px-4 py-3 text-gray-600 hover:text-gray-800 transition-colors"
+                className="w-full px-4 py-3 text-gray-600 hover:text-gray-800 transition-colors border border-gray-300 rounded-lg font-medium hover:bg-gray-50 flex items-center justify-center"
                 style={{ fontFamily: 'Maven Pro' }}
               >
                 Back

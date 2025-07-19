@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { Users, Copy, Check, LogOut } from 'lucide-react';
-import type { Room, User } from '../types';
+import React, { useState } from "react";
+import { Users, Copy, Check, LogOut } from "lucide-react";
+import type { Room, User } from "../types";
 
 interface RoomHeaderProps {
   room: Room;
@@ -10,11 +10,11 @@ interface RoomHeaderProps {
   onToggleUserList: () => void;
 }
 
-const RoomHeader: React.FC<RoomHeaderProps> = ({ 
-  room, 
-  users, 
-  onLeaveRoom, 
-  onToggleUserList 
+const RoomHeader: React.FC<RoomHeaderProps> = ({
+  room,
+  users,
+  onLeaveRoom,
+  onToggleUserList,
 }) => {
   const [copied, setCopied] = useState(false);
 
@@ -24,19 +24,23 @@ const RoomHeader: React.FC<RoomHeaderProps> = ({
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
-      console.error('Failed to copy room code');
+      console.error("Failed to copy room code");
     }
   };
 
   return (
-    <header className="bg-white border-b border-gray-200 px-6 py-4">
+    <header className="bg-white border-b border-gray-200 px-6 py-4 font-poppins" style={{ fontFamily: 'Poppins' }}>
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-4">
-          <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-            <Users className="w-5 h-5 text-white" />
-          </div>
+          {/* <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+        <Users className="w-5 h-5 text-white" />
+      </div> */}
           <div>
-            <h1 className="text-lg font-semibold text-gray-900">{room.name}</h1>
+            <h1 className="text-lg font-semibold text-gray-900 font-maven" style={{ fontFamily: 'Maven Pro' }}>
+              {" "}
+              {/* Maven Pro, bold */}
+              {room.name}
+            </h1>
             <div className="flex items-center space-x-2 text-sm text-gray-500">
               <span>Room Code:</span>
               <span className="font-mono font-medium">{room.code}</span>
@@ -62,7 +66,7 @@ const RoomHeader: React.FC<RoomHeaderProps> = ({
             <Users className="w-4 h-4" />
             <span className="text-sm">{users.length}</span>
           </button>
-          
+
           <button
             onClick={onLeaveRoom}
             className="flex items-center space-x-2 px-3 py-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
