@@ -50,7 +50,7 @@ const HomePage: React.FC<HomePageProps> = ({ onJoinRoom, currentUser }) => {
       name: userName,
       color: currentUser?.color || generateUserColor(),
       isOnline: true,
-      joinedAt: new Date()
+      joinedAt: new Date().toISOString()
     };
     
     const updatedRoom = { ...createdRoom, users: [user] };
@@ -66,7 +66,7 @@ const HomePage: React.FC<HomePageProps> = ({ onJoinRoom, currentUser }) => {
       name: userName,
       color: currentUser?.color || generateUserColor(),
       isOnline: true,
-      joinedAt: new Date()
+      joinedAt: new Date().toISOString()
     };
 
     const room: Room = {
