@@ -1,10 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
-import Toolbar from "./Toolbar";
-import Canvas from "./Canvas";
-import UserList from "./UserList";
-import RoomHeader from "./RoomHeader";
+
 import { Socket } from "socket.io-client";
 import io from "socket.io-client";
+import type { DrawingStroke, DrawingTool, Room, User, UserCursor } from "../types";
 
 interface WhiteboardRoomProps {
   room: Room;
@@ -40,7 +38,7 @@ const WhiteboardRoom: React.FC<WhiteboardRoomProps> = ({
       console.log('Connected to server');
       setIsConnected(true);
       
-      // Join room after connection is established
+      // * Join room after connection is established
       socket.emit("join-room", {
         roomCode: room.code,
         user: { ...user, socketId: socket.id },
@@ -106,13 +104,13 @@ const WhiteboardRoom: React.FC<WhiteboardRoomProps> = ({
   const handleDrawing = (x: number, y: number) => {
     if (!isDrawing || !currentStrokeRef.current || !isConnected) return;
 
-    // Add the new point to the current stroke
+    // * Add the new point to the current stroke
     currentStrokeRef.current.points.push({ x, y });
 
-    // Update the strokes state
+    // * Update the strokes state
     setStrokes((prev) => {
       const currentStroke = currentStrokeRef.current;
-      if (!currentStroke) return prev; // Additional safety check
+      if (!currentStroke) return prev;
       
       const newStrokes = [...prev];
       const existingIndex = newStrokes.findIndex(
@@ -127,7 +125,7 @@ const WhiteboardRoom: React.FC<WhiteboardRoomProps> = ({
       return newStrokes;
     });
 
-    // Emit the stroke to other users
+    // * Emit the stroke to other users
     socketRef.current?.emit("stroke", {
       roomCode: room.code,
       stroke: currentStrokeRef.current,
@@ -171,15 +169,8 @@ const WhiteboardRoom: React.FC<WhiteboardRoomProps> = ({
 
   return (
     <div className="h-screen flex flex-col bg-gray-50">
-      <RoomHeader
-        room={room}
-        user={user}
-        users={users}
-        onLeaveRoom={onLeaveRoom}
-        onToggleUserList={() => setShowUserList(!showUserList)}
-      />
+        h
 
-      {/* Connection status indicator */}
       {!isConnected && (
         <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4">
           <p className="font-medium">Connecting to room...</p>
@@ -187,31 +178,12 @@ const WhiteboardRoom: React.FC<WhiteboardRoomProps> = ({
       )}
 
       <div className="flex-1 flex relative">
-        <Toolbar
-          currentTool={currentTool}
-          onToolChange={handleToolChange}
-          onClearCanvas={handleClearCanvas}
-          onUndo={handleUndo}
-        />
+
 
         <div className="flex-1 relative">
-          <Canvas
-            strokes={strokes}
-            userCursors={userCursors}
-            isDrawing={isDrawing}
-            onStartDrawing={handleStartDrawing}
-            onDrawing={handleDrawing}
-            onStopDrawing={handleStopDrawing}
-            onMouseMove={sendCursorPosition}
-          />
-        </div>
-
-        <UserList
-          users={users}
-          isVisible={showUserList}
-          onClose={() => setShowUserList(false)}
-        />
+            f
       </div>
+    </div>
     </div>
   );
 };
