@@ -1,5 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
-
+import Toolbar from "./Toolbar";
+import Canvas from "./Canvas";
+import UserList from "./UserList";
+import RoomHeader from "./RoomHeader";
 import { Socket } from "socket.io-client";
 import io from "socket.io-client";
 import type { DrawingStroke, DrawingTool, Room, User, UserCursor } from "../types";
@@ -169,7 +172,13 @@ const WhiteboardRoom: React.FC<WhiteboardRoomProps> = ({
 
   return (
     <div className="h-screen flex flex-col bg-gray-50">
-        h
+      <RoomHeader
+        room={room}
+        user={user}
+        users={users}
+        onLeaveRoom={onLeaveRoom}
+        onToggleUserList={() => setShowUserList(!showUserList)}
+      />
 
       {!isConnected && (
         <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4">
@@ -178,12 +187,31 @@ const WhiteboardRoom: React.FC<WhiteboardRoomProps> = ({
       )}
 
       <div className="flex-1 flex relative">
-
+        <Toolbar
+          currentTool={currentTool}
+          onToolChange={handleToolChange}
+          onClearCanvas={handleClearCanvas}
+          onUndo={handleUndo}
+        />
 
         <div className="flex-1 relative">
-            f
+          <Canvas
+            strokes={strokes}
+            userCursors={userCursors}
+            isDrawing={isDrawing}
+            onStartDrawing={handleStartDrawing}
+            onDrawing={handleDrawing}
+            onStopDrawing={handleStopDrawing}
+            onMouseMove={sendCursorPosition}
+          />
+        </div>
+
+        <UserList
+          users={users}
+          isVisible={showUserList}
+          onClose={() => setShowUserList(false)}
+        />
       </div>
-    </div>
     </div>
   );
 };

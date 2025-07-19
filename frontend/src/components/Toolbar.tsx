@@ -127,7 +127,8 @@ const Toolbar: React.FC<ToolbarProps> = ({
             <span className="hidden lg:inline text-sm">Clear</span>
           </button>
 
-          // ! NEED TO BE ADDED
+          {/*  // ! NEED TO BE ADDED 
+          // */}
           <button
             onClick={() => {}}
             className="w-full p-3 bg-green-100 text-green-700 rounded-lg hover:bg-green-200 transition-colors flex items-center justify-center lg:justify-start space-x-2"
