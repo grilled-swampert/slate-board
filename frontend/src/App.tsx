@@ -1,34 +1,34 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useEffect, useState } from 'react'
+import HomePage from './components/HomePage';
 import './App.css'
+import type { Room, User } from './types';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [currentRoom, setCurrentRoom] = useState<Room | null>(null);
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    const userId = Math.random().toString(36).substr(2, 9);
+    const userName = `User ${userId.substr(0, 4)}`;
+    setCurrentUser({ id: userId, name: userName, color: '#3B82F6' });
+  }, []);
+
+  const handleJoinRoom = (room: Room, user: User) => {
+    setCurrentRoom(room);
+    setCurrentUser(user);
+  };
+
+  const handleLeaveRoom = () => {
+    setCurrentRoom(null);
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div className='min-h-screen bg-gradient-to-br from-slate-50 to-blue-50'>
+      <HomePage
+        onJoinRoom={handleJoinRoom}
+        currentUser={currentUser}
+      />
+    </div>
   )
 }
 
