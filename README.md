@@ -1,138 +1,117 @@
-# Slateboard 🎨
+# slateboard 
 
-A real-time collaborative whiteboard application that allows multiple users to draw, write, and collaborate together in shared rooms.
+a real-time collaborative whiteboard application that allows multiple users to draw, write, and collaborate together in shared rooms.
 
-![Slateboard Demo](https://via.placeholder.com/800x400/1a1a2e/ffffff?text=Slateboard+Demo)
+![slateboard demo](https://via.placeholder.com/800x400/1a1a2e/ffffff?text=slateboard+demo)
 
-## ✨ Features
+## features
 
-- **Real-time Collaborative Drawing** - Multiple users can draw simultaneously
-- **Multiple Drawing Tools** - Pen, eraser, shapes (line, rectangle, circle), and text
-- **User Cursor Tracking** - See where other users are working in real-time
-- **Room-based Collaboration** - Create or join rooms with unique room codes
-- **Undo/Redo Functionality** - Easy mistake correction
-- **Canvas Clearing** - Clear the entire canvas when needed
-- **Responsive Design** - Works seamlessly on desktop and mobile devices
-- **Custom Font Integration** - Beautiful typography with Maven Pro, Poppins, and Trirong fonts
+- **real-time collaborative drawing** - multiple users can draw simultaneously
+- **user cursor tracking** - see where other users are working in real-time
+- **room-based collaboration** - create or join rooms with unique room codes
+- **undo/redo functionality** - easy mistake correction
+- **canvas clearing** - clear the entire canvas when needed
 
-## 🚀 Tech Stack
-
-### Frontend
-- **React 19** - Modern React with latest features
-- **TypeScript** - Type-safe development
-- **Tailwind CSS** - Utility-first styling
-- **Socket.IO Client** - Real-time communication
-- **Lucide React** - Beautiful icons
-- **Vite** - Fast build tool and development server
-
-### Backend
-- **Node.js** - JavaScript runtime
-- **Express** - Web framework
-- **Socket.IO** - Real-time bidirectional communication
-- **Morgan** - HTTP request logging
-- **Rate Limiting** - API protection
-- **CORS** - Cross-origin resource sharing
-
-## 📁 Project Structure
+## ���� project structure
 
 ```
 slateboard/
 ├── frontend/
 │   ├── src/
-│   │   ├── components/     # React components
-│   │   ├── types/         # TypeScript interfaces
-│   │   ├── assets/        # Fonts and images
-│   │   └── config.tsx     # Configuration
+│   │   ├── components/     # react components
+│   │   ├── types/         # typescript interfaces
+│   │   ├── assets/        # fonts and images
+│   │   └── config.tsx     # configuration
 │   ├── package.json
 │   └── vite.config.js
 └── backend/
-    ├── sockets/          # Socket.IO event handlers
-    ├── utils/           # Helper functions
-    ├── server.js        # Express server setup
+    ├── sockets/          # socket.io event handlers
+    ├── utils/           # helper functions
+    ├── server.js        # express server setup
     └── package.json
 ```
 
-## 🛠️ Installation & Setup
+## ����️ installation & setup
 
-### Prerequisites
-- Node.js (v16 or higher)
+### prerequisites
+- node.js (v16 or higher)
 - npm or yarn
 
-### Clone the Repository
+### clone the repository
 ```bash
-git clone https://github.com/yourusername/slateboard.git
+git clone https://github.com/grilled-swampert/slate-board.git
 cd slateboard
 ```
 
-### Backend Setup
+### backend setup
 ```bash
 cd backend
 npm install
-npm run dev
+npm start
 ```
 
-### Frontend Setup
+### frontend setup
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
 
-## 🔧 Environment Variables
+## ���� environment variables
 
-### Frontend (.env)
+### frontend (.env)
 ```env
-VITE_BACKEND_URL=http://localhost:5000
+vite_backend_url=http://localhost:5000
 ```
 
-### Backend (.env)
+### backend (.env)
 ```env
-PORT=5000
+port=5000
 ```
 
-## 🎯 Key Components
+## ���� key components
 
-### Frontend Components
+### frontend components
 
-| Component | Description |
+| component | description |
 |-----------|-------------|
-| `App.tsx` | Main application component handling room/user state |
-| `HomePage.tsx` | Landing page with room creation and joining |
-| `WhiteboardRoom.tsx` | Main whiteboard interface with socket connections |
-| `Canvas.tsx` | Drawing canvas with mouse/touch event handling |
-| `Toolbar.tsx` | Drawing tools, color picker, and brush controls |
-| `RoomHeader.tsx` | Room information and user management |
+| `app.tsx` | main application component handling room/user state |
+| `homepage.tsx` | landing page with room creation and joining |
+| `whiteboardroom.tsx` | main whiteboard interface with socket connections |
+| `canvas.tsx` | drawing canvas with mouse/touch event handling |
+| `toolbar.tsx` | drawing tools, color picker, and brush controls |
+| `roomheader.tsx` | room information and user management |
 
-### Backend Components
+### backend components
 
-| Component | Description |
+| component | description |
 |-----------|-------------|
-| `server.js` | Express server with Socket.IO initialization |
-| `roomManager.js` | Room state management and user tracking |
+| `server.js` | express server with socket.io initialization |
+| `roommanager.js` | room state management and user tracking |
 
 
-## 🎨 Drawing Tools
+## ���� drawing tools
 
-- **Pen** - Freehand drawing with customizable colors and sizes
-- **Eraser** - Remove parts of drawings
-- **Line** *(in development)* - Draw straight lines  
-- **Rectangle** *(in development)* - Create rectangular shapes  
-- **Circle** *(in development)* - Draw circular shapes  
-- **Text** *(in development)* - Add text annotations
+- **pen** - freehand drawing with customizable colors and sizes
+- **eraser** - remove parts of drawings
+- **line** *(in development)* - draw straight lines  
+- **rectangle** *(in development)* - create rectangular shapes  
+- **circle** *(in development)* - draw circular shapes  
+- **text** *(in development)* - add text annotations
 
 
-## 📱 Usage
+## ���� usage
 
-1. **Create a Room**: Click "Create Room" to start a new collaborative session
-2. **Join a Room**: Enter a room code to join an existing session
-3. **Select Tools**: Use the toolbar to choose drawing tools, colors, and sizes
-4. **Collaborate**: Draw in real-time with other users
-5. **Manage Canvas**: Use undo, redo, or clear functions as needed
+1. **create a room**: click "create room" to start a new collaborative session
+2. **join a room**: enter a room code to join an existing session
+3. **select tools**: use the toolbar to choose drawing tools, colors, and sizes
+4. **collaborate**: draw in real-time with other users
+5. **manage canvas**: use undo, redo, or clear functions as needed
 
-## 🤝 Contributing
+## ���� contributing
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+1. fork the repository
+2. create your feature branch (`git checkout -b feature/amazingfeature`)
+3. commit your changes (`git commit -m 'add some amazingfeature'`)
+4. push to the branch (`git push origin feature/amazingfeature`)
+5. open a pull request
