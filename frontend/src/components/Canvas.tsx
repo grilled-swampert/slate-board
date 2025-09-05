@@ -1,10 +1,11 @@
 import React, { useRef, useEffect, useState } from "react";
-import type { DrawingStroke, UserCursor } from "../types";
+import type { DrawingStroke, DrawingTool, UserCursor } from "../types";
 
 interface CanvasProps {
   strokes: DrawingStroke[];
   userCursors: UserCursor[];
   isDrawing: boolean;
+  currentTool: DrawingTool;
   onStartDrawing: (x: number, y: number) => void;
   onDrawing: (x: number, y: number) => void;
   onStopDrawing: () => void;
@@ -18,6 +19,7 @@ const Canvas: React.FC<CanvasProps> = ({
   isDrawing,
   onStartDrawing,
   onDrawing,
+  currentTool,
   onStopDrawing,
   onMouseMove,
   previewStroke,
@@ -200,7 +202,9 @@ const Canvas: React.FC<CanvasProps> = ({
     }
 
     // Handle drawing
-    if (isDrawing) {
+    if (
+      isDrawing
+    ) {
       onDrawing(pos.x, pos.y);
     }
   };

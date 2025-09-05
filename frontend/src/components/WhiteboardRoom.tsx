@@ -239,6 +239,7 @@ const WhiteboardRoom: React.FC<WhiteboardRoomProps> = ({
             strokes={strokes}
             userCursors={userCursors}
             isDrawing={isDrawing}
+            currentTool={currentTool}
             onStartDrawing={handleStartDrawing}
             onDrawing={handleDrawing}
             onStopDrawing={handleStopDrawing}
