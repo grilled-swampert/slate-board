@@ -26,6 +26,9 @@ export interface DrawingStroke {
   points: Point[];
   userId: string;
   timestamp: Date;
+  startPoint?: Point;
+  endPoint?: Point;
+  text?: string;
 }
 
 export interface Point {

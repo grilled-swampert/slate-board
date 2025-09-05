@@ -5,7 +5,13 @@ import UserList from "./UserList";
 import RoomHeader from "./RoomHeader";
 import { Socket } from "socket.io-client";
 import io from "socket.io-client";
-import type { DrawingStroke, DrawingTool, Room, User, UserCursor } from "../types";
+import type {
+  DrawingStroke,
+  DrawingTool,
+  Room,
+  User,
+  UserCursor,
+} from "../types";
 import { BACKEND_URL } from "../config";
 
 interface WhiteboardRoomProps {
@@ -30,6 +36,9 @@ const WhiteboardRoom: React.FC<WhiteboardRoomProps> = ({
   const [isDrawing, setIsDrawing] = useState(false);
   const [showUserList, setShowUserList] = useState(false);
   const [isConnected, setIsConnected] = useState(false);
+  const [previewStroke, setPreviewStroke] = useState<DrawingStroke | null>(
+    null
+  );
 
   const currentStrokeRef = useRef<DrawingStroke | null>(null);
   const socketRef = useRef<Socket | null>(null);
@@ -38,10 +47,10 @@ const WhiteboardRoom: React.FC<WhiteboardRoomProps> = ({
     const socket = io(BACKEND_URL);
     socketRef.current = socket;
 
-    socket.on('connect', () => {
-      console.log('Connected to server');
+    socket.on("connect", () => {
+      console.log("Connected to server");
       setIsConnected(true);
-      
+
       // * Join room after connection is established
       socket.emit("join-room", {
         roomCode: room.code,
@@ -49,21 +58,21 @@ const WhiteboardRoom: React.FC<WhiteboardRoomProps> = ({
       });
     });
 
-    socket.on('disconnect', () => {
-      console.log('Disconnected from server');
+    socket.on("disconnect", () => {
+      console.log("Disconnected from server");
       setIsConnected(false);
     });
 
-    socket.on('joined-room', ({ roomCode, users }) => {
+    socket.on("joined-room", ({ roomCode, users }) => {
       console.log(`Successfully joined room ${roomCode}`);
       setUsers(users);
     });
 
-    socket.on('existing-strokes', ({ strokes }) => {
+    socket.on("existing-strokes", ({ strokes }) => {
       setStrokes(strokes);
     });
 
-    socket.on('users-updated', ({ users }) => {
+    socket.on("users-updated", ({ users }) => {
       setUsers(users);
     });
 
@@ -79,7 +88,7 @@ const WhiteboardRoom: React.FC<WhiteboardRoomProps> = ({
     });
 
     socket.on("clear", () => setStrokes([]));
-    
+
     socket.on("undo", () => setStrokes((prev) => prev.slice(0, -1)));
 
     return () => {
@@ -93,7 +102,7 @@ const WhiteboardRoom: React.FC<WhiteboardRoomProps> = ({
 
   const handleStartDrawing = (x: number, y: number) => {
     if (!isConnected) return;
-    
+
     setIsDrawing(true);
     const newStroke: DrawingStroke = {
       id: Math.random().toString(36).substr(2, 9),
@@ -101,26 +110,55 @@ const WhiteboardRoom: React.FC<WhiteboardRoomProps> = ({
       points: [{ x, y }],
       userId: user.id,
       timestamp: new Date(),
+      startPoint: { x, y },
     };
     currentStrokeRef.current = newStroke;
+
+    if (currentTool.type === "text") {
+      const text = prompt("Enter text:");
+      if (text) {
+        newStroke.text = text;
+        newStroke.endPoint = { x, y }; // For text, start and end are the same
+        setStrokes((prev) => [...prev, newStroke]);
+        socketRef.current?.emit("stroke", {
+          roomCode: room.code,
+          stroke: newStroke,
+        });
+      }
+      setIsDrawing(false);
+      currentStrokeRef.current = null;
+      return;
+    }
   };
 
   const handleDrawing = (x: number, y: number) => {
     if (!isDrawing || !currentStrokeRef.current || !isConnected) return;
 
-    // * Add the new point to the current stroke
-    currentStrokeRef.current.points.push({ x, y });
+    const currentStroke = currentStrokeRef.current;
+    if (
+      currentTool.type !== "pen" &&
+      currentTool.type !== "eraser" &&
+      currentTool.type !== "text"
+    ) {
+      setPreviewStroke({ ...currentStroke });
+    }
+    if (currentTool.type === "pen" || currentTool.type === "eraser") {
+      // Original logic for pen/eraser - continuous drawing
+      currentStroke.points.push({ x, y });
+    } else {
+      // For shapes (line, rectangle, circle) - only store end point
+      currentStroke.endPoint = { x, y };
+      // Keep only start point in points array for shapes
+      currentStroke.points = [currentStroke.startPoint!];
+    }
 
-    // * Update the strokes state
+    // Update local state
     setStrokes((prev) => {
-      const currentStroke = currentStrokeRef.current;
-      if (!currentStroke) return prev;
-      
       const newStrokes = [...prev];
       const existingIndex = newStrokes.findIndex(
         (s) => s.id === currentStroke.id
       );
-      
+
       if (existingIndex >= 0) {
         newStrokes[existingIndex] = { ...currentStroke };
       } else {
@@ -129,35 +167,36 @@ const WhiteboardRoom: React.FC<WhiteboardRoomProps> = ({
       return newStrokes;
     });
 
-    // * Emit the stroke to other users
+    // Emit to server
     socketRef.current?.emit("stroke", {
       roomCode: room.code,
-      stroke: currentStrokeRef.current,
+      stroke: currentStroke,
     });
   };
 
   const handleStopDrawing = () => {
     setIsDrawing(false);
     currentStrokeRef.current = null;
+    setPreviewStroke(null);
   };
 
   const handleClearCanvas = () => {
     if (!isConnected) return;
-    
+
     setStrokes([]);
     socketRef.current?.emit("clear", { roomCode: room.code });
   };
 
   const handleUndo = () => {
     if (!isConnected) return;
-    
+
     setStrokes((prev) => prev.slice(0, -1));
     socketRef.current?.emit("undo", { roomCode: room.code });
   };
 
   const sendCursorPosition = (x: number, y: number) => {
     if (!isConnected) return;
-    
+
     const cursorData: UserCursor = {
       userId: user.id,
       x,
@@ -204,6 +243,7 @@ const WhiteboardRoom: React.FC<WhiteboardRoomProps> = ({
             onDrawing={handleDrawing}
             onStopDrawing={handleStopDrawing}
             onMouseMove={sendCursorPosition}
+            previewStroke={previewStroke}
           />
         </div>
 

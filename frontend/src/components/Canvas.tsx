@@ -1,5 +1,5 @@
-import React, { useRef, useEffect, useState } from 'react';
-import type { DrawingStroke, UserCursor } from '../types';
+import React, { useRef, useEffect, useState } from "react";
+import type { DrawingStroke, UserCursor } from "../types";
 
 interface CanvasProps {
   strokes: DrawingStroke[];
@@ -9,6 +9,7 @@ interface CanvasProps {
   onDrawing: (x: number, y: number) => void;
   onStopDrawing: () => void;
   onMouseMove?: (x: number, y: number) => void;
+  previewStroke?: DrawingStroke | null;
 }
 
 const Canvas: React.FC<CanvasProps> = ({
@@ -18,7 +19,8 @@ const Canvas: React.FC<CanvasProps> = ({
   onStartDrawing,
   onDrawing,
   onStopDrawing,
-  onMouseMove
+  onMouseMove,
+  previewStroke,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -28,22 +30,22 @@ const Canvas: React.FC<CanvasProps> = ({
     const updateCanvasSize = () => {
       if (containerRef.current) {
         const rect = containerRef.current.getBoundingClientRect();
-        console.log('Container size:', rect.width, rect.height);
-        
+        console.log("Container size:", rect.width, rect.height);
+
         const width = rect.width || 800;
         const height = rect.height || 600;
-        
+
         setCanvasSize({ width, height });
       }
     };
 
     const timeoutId = setTimeout(updateCanvasSize, 10);
-    
-    window.addEventListener('resize', updateCanvasSize);
-    
+
+    window.addEventListener("resize", updateCanvasSize);
+
     return () => {
       clearTimeout(timeoutId);
-      window.removeEventListener('resize', updateCanvasSize);
+      window.removeEventListener("resize", updateCanvasSize);
     };
   }, []);
 
@@ -75,14 +77,14 @@ const Canvas: React.FC<CanvasProps> = ({
       onStopDrawing();
     };
 
-    canvas.addEventListener('touchstart', handleTouchStart, { passive: false });
-    canvas.addEventListener('touchmove', handleTouchMove, { passive: false });
-    canvas.addEventListener('touchend', handleTouchEnd, { passive: false });
+    canvas.addEventListener("touchstart", handleTouchStart, { passive: false });
+    canvas.addEventListener("touchmove", handleTouchMove, { passive: false });
+    canvas.addEventListener("touchend", handleTouchEnd, { passive: false });
 
     return () => {
-      canvas.removeEventListener('touchstart', handleTouchStart);
-      canvas.removeEventListener('touchmove', handleTouchMove);
-      canvas.removeEventListener('touchend', handleTouchEnd);
+      canvas.removeEventListener("touchstart", handleTouchStart);
+      canvas.removeEventListener("touchmove", handleTouchMove);
+      canvas.removeEventListener("touchend", handleTouchEnd);
     };
   }, [isDrawing, onStartDrawing, onDrawing, onStopDrawing]);
 
@@ -90,35 +92,88 @@ const Canvas: React.FC<CanvasProps> = ({
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    strokes.forEach(stroke => {
-      if (stroke.points.length < 2) return;
+    strokes.forEach((stroke) => {
+      if (stroke.points.length < 1) return;
 
       ctx.beginPath();
       ctx.strokeStyle = stroke.tool.color;
       ctx.lineWidth = stroke.tool.size;
-      ctx.lineCap = 'round';
-      ctx.lineJoin = 'round';
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
 
-      if (stroke.tool.type === 'eraser') {
-        ctx.globalCompositeOperation = 'destination-out';
+      if (stroke.tool.type === "eraser") {
+        ctx.globalCompositeOperation = "destination-out";
       } else {
-        ctx.globalCompositeOperation = 'source-over';
+        ctx.globalCompositeOperation = "source-over";
       }
 
-      ctx.moveTo(stroke.points[0].x, stroke.points[0].y);
-      for (let i = 1; i < stroke.points.length; i++) {
-        ctx.lineTo(stroke.points[i].x, stroke.points[i].y);
+      // Render based on tool type
+      switch (stroke.tool.type) {
+        case "pen":
+        case "eraser":
+          // Original continuous line logic
+          if (stroke.points.length < 2) return;
+          ctx.moveTo(stroke.points[0].x, stroke.points[0].y);
+          for (let i = 1; i < stroke.points.length; i++) {
+            ctx.lineTo(stroke.points[i].x, stroke.points[i].y);
+          }
+          ctx.stroke();
+          break;
+
+        case "line":
+          if (!stroke.startPoint || !stroke.endPoint) return;
+          ctx.moveTo(stroke.startPoint.x, stroke.startPoint.y);
+          ctx.lineTo(stroke.endPoint.x, stroke.endPoint.y);
+          ctx.stroke();
+          break;
+
+        case "rectangle":
+          if (!stroke.startPoint || !stroke.endPoint) return;
+          const rectWidth = stroke.endPoint.x - stroke.startPoint.x;
+          const rectHeight = stroke.endPoint.y - stroke.startPoint.y;
+          ctx.strokeRect(
+            stroke.startPoint.x,
+            stroke.startPoint.y,
+            rectWidth,
+            rectHeight
+          );
+          break;
+
+        case "circle":
+          if (!stroke.startPoint || !stroke.endPoint) return;
+          const centerX = stroke.startPoint.x;
+          const centerY = stroke.startPoint.y;
+          const radius = Math.sqrt(
+            Math.pow(stroke.endPoint.x - centerX, 2) +
+              Math.pow(stroke.endPoint.y - centerY, 2)
+          );
+          ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+          ctx.stroke();
+          break;
+
+        case "text":
+          if (!stroke.startPoint || !stroke.text) return;
+          ctx.font = `${stroke.tool.size * 8}px Arial`; // Scale text size
+          ctx.fillStyle = stroke.tool.color;
+          ctx.fillText(stroke.text, stroke.startPoint.x, stroke.startPoint.y);
+          break;
       }
-      ctx.stroke();
+
+      if (previewStroke) {
+        ctx.save();
+        ctx.globalAlpha = 0.5; // Semi-transparent preview
+        // Use same rendering logic as above for the preview stroke
+        ctx.restore();
+      }
     });
 
-    ctx.globalCompositeOperation = 'source-over';
-  }, [strokes, canvasSize]); 
+    ctx.globalCompositeOperation = "source-over";
+  }, [strokes, canvasSize]);
 
   const getEventPosition = (e: React.MouseEvent) => {
     const canvas = canvasRef.current;
@@ -127,7 +182,7 @@ const Canvas: React.FC<CanvasProps> = ({
     const rect = canvas.getBoundingClientRect();
     return {
       x: e.clientX - rect.left,
-      y: e.clientY - rect.top
+      y: e.clientY - rect.top,
     };
   };
 
@@ -138,12 +193,12 @@ const Canvas: React.FC<CanvasProps> = ({
 
   const handleMouseMove = (e: React.MouseEvent) => {
     const pos = getEventPosition(e);
-    
+
     // Send cursor position for other users
     if (onMouseMove) {
       onMouseMove(pos.x, pos.y);
     }
-    
+
     // Handle drawing
     if (isDrawing) {
       onDrawing(pos.x, pos.y);
@@ -155,7 +210,7 @@ const Canvas: React.FC<CanvasProps> = ({
   };
 
   return (
-    <div 
+    <div
       ref={containerRef}
       className="relative w-full h-full bg-white overflow-hidden"
     >
@@ -168,21 +223,21 @@ const Canvas: React.FC<CanvasProps> = ({
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseUp}
-        style={{ touchAction: 'none' }}
+        style={{ touchAction: "none" }}
       />
-      
-      {userCursors.map(cursor => (
+
+      {userCursors.map((cursor) => (
         <div
           key={cursor.userId}
           className="absolute pointer-events-none z-10 transition-all duration-100"
           style={{
             left: cursor.x,
             top: cursor.y,
-            transform: 'translate(-50%, -50%)'
+            transform: "translate(-50%, -50%)",
           }}
         >
           <div className="flex items-center space-x-2">
-            <div 
+            <div
               className="w-4 h-4 rounded-full border-2 border-white shadow-lg"
               style={{ backgroundColor: cursor.color }}
             />
