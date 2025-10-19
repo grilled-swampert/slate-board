@@ -2,7 +2,7 @@
 
 a real-time collaborative whiteboard application that allows multiple users to draw, write, and collaborate together in shared rooms.
 
-![slateboard demo](https://via.placeholder.com/800x400/1a1a2e/ffffff?text=slateboard+demo)
+<img width="3049" height="3737" alt="Mermaid Chart - Create complex, visual diagrams with text -2025-10-19-025834" src="https://github.com/user-attachments/assets/aad035d7-3a73-443e-941a-00cd59f767f3" />
 
 ## features
 
@@ -108,10 +108,5 @@ port=5000
 4. **collaborate**: draw in real-time with other users
 5. **manage canvas**: use undo, redo, or clear functions as needed
 
-## contributing
+## future architecture
 
-1. fork the repository
-2. create your feature branch (`git checkout -b feature/amazingfeature`)
-3. commit your changes (`git commit -m 'add some amazingfeature'`)
-4. push to the branch (`git push origin feature/amazingfeature`)
-5. open a pull request
